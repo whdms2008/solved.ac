@@ -1,0 +1,15 @@
+import sys
+
+if __name__ == "__main__":
+    data = sys.stdin.readlines()
+    for i in range(5):
+        c = 0
+        data[i] = data[i].upper()
+        if data[i] == "EOI\n":
+            break
+        for j in range(len(data[i])-2):
+            if(data[i][j] == "N"):
+                if(data[i][j:j+4] == "NEMO"):
+                    c = 1
+                    break
+        [print("Found") if c==1 else print("Missing")]
