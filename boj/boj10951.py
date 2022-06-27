@@ -1,6 +1,6 @@
 import sys
-cnt = int(sys.stdin.readline())
-for i in range(cnt):
+
+while True:
     try:
         a, b = map(int, sys.stdin.readline().split())
     except:
