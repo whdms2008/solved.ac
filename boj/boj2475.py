@@ -1,3 +1,6 @@
-T = int(input())
-for i in range(T):
-    print(" "*((T-1)-i)+"*"*(i+1))
+
+a = list(map(int, input().split()))
+b = 0
+for i in a:
+    b += i**2
+print(b % 10)
