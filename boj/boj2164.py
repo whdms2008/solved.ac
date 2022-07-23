@@ -4,7 +4,7 @@ from collections import deque
 N = int(sys.stdin.readline())
 q = deque([i for i in range(1, N+1)])
 
-while True:
-    print(q)
+while len(q) > 1:
     q.popleft()
-    q.reverse()
+    q.append(q.popleft())
+print(q[0])
