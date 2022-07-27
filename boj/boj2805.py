@@ -3,11 +3,15 @@ from sys import stdin
 N, M = list(map(int,stdin.readline().split(" ")))
 height = list(map(int,stdin.readline().split(" ")))
 a = list(range(N))
-mid_cut = max(height) // 2
-while True:
+start = min(height)
+end = max(height)
+while start <= end:
+    mid_cut = (start + end) // 2
     a = sum([height[i]-mid_cut if height[i]-mid_cut > 0 else 0 for i in range(N)])
-    print(mid_cut, a)
     if a == M:
         print(mid_cut)
         break
-    mid_cut += 1 if a > M else -1
+    elif a > M:
+        start = mid_cut + 1
+    else:
+        end = mid_cut -1
