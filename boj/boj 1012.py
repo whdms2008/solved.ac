@@ -2,14 +2,14 @@ from sys import stdin
 from collections import defaultdict
 
 
-def DFS(start, graph, visited):
+def DFS(start, grap, visit):
     stack = [start]
     while stack:
         vertex = stack.pop()
-        if vertex not in visited:
-            visited.add(vertex)
-            stack.extend(graph[vertex] - visited)
-    return visited
+        if vertex not in visit:
+            visit.add(vertex)
+            stack.extend(grap[vertex] - visit)
+    return visit
 
 
 T = int(stdin.readline())
@@ -21,8 +21,7 @@ for i in range(T):
     for _ in range(K):
         X, Y = map(int, stdin.readline().split(" "))
         Field[i].append([X, Y])
-
-    Field[i].sort()
+    Field.sort()
     graph = defaultdict(set)
     for x, y in Field[i]:
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
