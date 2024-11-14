@@ -1,50 +1,32 @@
-from sys import stdin
-from collections import deque
-
-N, M = list(map(int, stdin.readline().split()))
+import sys
 
 
-def bfs(graph, root):
-    visited = []
-    queue = deque([root])
-    while queue:
-        node = queue.popleft()
-        if node not in visited:
-            visited.append(node)
-            queue.extend(set(graph[node]) - set(visited))
-    return visited
+def input():
+    return sys.stdin.readline.rstrip()
 
+# 헌내기는 친구가 필요해
+# 입력
+# 첫째 줄 : 캠퍼스의 크기를 나타내는 N, M
+# N,M(1 <= N <= 600)
+# 둘째 줄 : N개의 줄에 캠퍼스의 정보
+# O : 빈공간, X : 벽, I : 도연이, P : 사람
+# 도연이를 기준으로 만날 수 있는 사람의 수를 반환
+# 없다면 TT 반환
 
-graph = {
-    'I': ['A', 'B'],
-    'A': ['I', 'P', 'C'],
-    'B': ['I', 'P'],
-    'C': ['A', 'D'],
-    'D': ['P', 'C', 'P2'],
-    'P': ['A', 'B', 'D'],
-    'P2': ['D']
-}
-direction = [(0, -1), (0, 1), (-1, 0), (1, 0)]
-g = list((stdin.readline().strip() for _ in range(N)))
-print(g)
-i_pos = (0, 0)
-for i in range(N):
-    if "I" in g[i]:
-        for j in range(M):
-            print(i, g[i].find("I"))
-            i_pos = (i, g[i].find("I"))
-            break
-print(f"I 위치 : {i_pos}")
-cnt = 0
-visit = []
-for i in direction:
-    x_pos = i_pos[0] + i[0]
-    if x_pos < 0 or x_pos >= M:
-        continue
-    y_pos = i_pos[1] + i[1]
-    if y_pos < 0 or y_pos >= N:
-        continue
-    print(f"위치 {chr(65 + cnt)} ", x_pos, y_pos)
-    visit.append((x_pos, y_pos))
-    cnt += 1
-print(sum('p' in i.lower() for i in bfs(graph, 'I')))  # ['A', 'B', 'C', 'D', 'E', 'F']
+# ex )
+# 3 5
+# OOOPO
+# OIOOX
+# OOOXP
+# => 1
+
+# ex2 )
+# 3 3
+# IOX
+# OXP
+# XPP
+# => TT
+
+N, M = map(int, input().split())
+
+# 
