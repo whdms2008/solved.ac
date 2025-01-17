@@ -1,25 +1,22 @@
-from sys import stdin
+import sys
 
-# 1 : 1/1
-# 2 : 1/2
-# 3 : 2/1
-# 4 : 3/1
-# 5 : 2/2
-# 6 : 1/3
-# 7 : 1/4
-# 8 : 2/3
-# 9 : 3/2
-# 14 : 2/4
-# 1 : 1 : 1
-# 2 : 1 : 2
-# 3 : 3 : 1
-# 4 : 2 : 2
-# 5 : 1 : 3
-# 6 : 2 : 3
-# 7 : 3 : 2
-# 8 : 4 : 1
-# 9 : 5 : 1
-# 10 : 4 : 2
-for i in range(100):
-    for j in range(100):
-        for k in range(100):
+input = sys.stdin.readline
+
+X = int(input())
+
+if X == 1:
+    print("1/1")
+else:
+    chk = False
+    result = 1
+    for num in range(2, X + 1):
+        result += num
+        y, x = (1, num) if chk else (num, 1)
+        chk = not chk
+
+        if result >= X:
+            abs_result = abs(result - X)
+            x = x + abs_result if y != 1 else x - abs_result
+            y = y - abs_result if y != 1 else y + abs_result
+            print(f"{y}/{x}")
+            break

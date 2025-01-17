@@ -19,6 +19,7 @@ input = sys.stdin.readline
 
 # BFS 함수 정의
 def bfs(queue):
+    print(T)
     direct = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # 상, 하, 좌, 우
     while queue:
         this_y, this_x = queue.popleft()
