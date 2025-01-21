@@ -27,19 +27,30 @@ from collections import defaultdict
 
 N = int(input())
 
+
 matrix = [list(map(int, input().split())) for _ in range(N)]
-grades = []
+grades = defaultdict(set[int])
 
+for student_number in range(N):
+    for idx, grade in enumerate(matrix[student_number]):
+        class_list = [(std_num, matrix[std_num][idx]) for std_num in range(N) if
+                      std_num != student_number and matrix[std_num][idx] == grade]
+        for std_num, class_num in class_list:
+            grades[student_number].add(std_num)
+            grades[std_num].add(student_number)
 
-for i in range(5):
-    grades.append([])
-    for j in range(N):
-        grades[-1].append((j, matrix[j][i]))
-print(grades)
+result = 0
+if grades.values():
+    max_length = max(len(items) for items in grades.values())
+    result = min({key: items for key, items in grades.items() if len(items) == max_length})
 
-cnt_student = defaultdict(list)
-for i in range(N):
-    for j in range(5):
-        result = list(filter(lambda student: student[1] == grades[i], grades[1]))
-        print(result)
+print(result + 1)
 
+# 나중에 최적화 해보자!
+# matrix = [list(map(int, input().split())) for _ in range(N)]
+# grades = []
+# for i in range(N):
+#     grades.append([])
+#     for j in range(N):
+#         grades[-1].append(matrix[j][i])
+# print(grades)
