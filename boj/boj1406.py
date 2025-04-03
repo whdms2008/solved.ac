@@ -1,22 +1,28 @@
-from sys import stdin
+# L : 커서를 왼쪽으로 1칸 옮김, 문장의 맨 앞이면 무시
+# D : 커서를 오른쪽으로 한 칸 옮김, 문장의 맨 뒤이면 무시
+# B : 커서 왼쪽에 있는 문자를 삭제함 ( 문장의 맨 앞이면 무시됨 )
+# 삭제로 인해 커서가 한 칸 왼쪽으로 이동한 것 처럼 나타나지만, 실제로 커서의 오른쪽에 있던 문자는 그대로임
+# P $ : $ 라는 문자를 커서 왼쪽에 추가함.
+import sys
+input = sys.stdin.readline
 
-string = list(stdin.readline().strip()) ``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
-M = int(stdin.readline())
-cur = len(string) - 1
+left = list(input().strip())
+right = []
+M = int(input().strip())
+
 for _ in range(M):
-    command = stdin.readline().replace(" ", "")
+    command = input().strip().split(" ")
     match command[0]:
-        case "P":
-            string.insert(cur + 1 if cur != 0 else 0, command[1])
-            cur += 1
         case "L":
-            cur -= 1 if cur > 0 else 0
+            if left:
+                right.append(left.pop())
         case "D":
-            cur += 1 if cur < len(string) - 1 else 0
+            if right:
+                left.append(right.pop())
         case "B":
-            if cur != 0:
-                cur -= 1 if cur >= len(string) - 1 else 0
-                string.pop(cur)
+            if left:
+                left.pop()
+        case "P":
+            left.append(command[1])
 
-for i in string:
-    print(i, end="")
+print("".join(left + right[::-1]))
