@@ -24,30 +24,31 @@ NxM크기의 배열로 표현되는 미로가 있다.
 
 from collections import deque
 
+
 def bfs(graph, N, M):
+    dx = [0, 0, -1, 1]
+    dy = [-1, 1, 0, 0]
+
     q = deque([(0, 0)])
-    graph[0][0] = 1
+
     while q:
         x, y = q.popleft()
-        is_check = False
-        for dx2, dy2 in [(0, -1), (0, 1), (-1, 0), (1, 0)]:
-            dx = x + dx2
-            dy = y + dy2
-            if not (0 <= dx < M) or  not (0 <= dy < N) :
-                continue
-            if graph[dy][dx] != 0 and graph[dy][dx] == 1:
-                q.append((dx, dy))
-                graph[dy][dx] = graph[y][x] + 1
-                is_check = True
-            if dy+1 == N and dx+1 == M:
-                break
-        if y+1 == N and x+1 == M:
+
+        if x == M - 1 and y == N - 1:
             return graph[y][x]
-        if not is_check:
-            graph[y][x] = 0
 
-N, M = map(int, input().split(" "))
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
 
-maze = [list(map(int, ",".join(input()).split(","))) for _ in range(N)]
+            if 0 <= nx < M and 0 <= ny < N:
+                if graph[ny][nx] == 1:
+                    graph[ny][nx] = graph[y][x] + 1
+                    q.append((nx, ny))
+
+
+N, M = map(int, input().split())
+
+maze = [list(map(int, input().strip())) for _ in range(N)]
 
 print(bfs(maze, N, M))
