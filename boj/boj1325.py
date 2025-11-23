@@ -19,47 +19,43 @@ B를 해킹하면, A도 해킹ㅎ라 수 있다는 소리다.
 
 """
 
-from collections import defaultdict
 from collections import deque
 import sys
 
-
-def bfs(graph, n):
-    hacks = {}
-    for start_node in range(1, n + 1):
-        q = deque([start_node])
-        visited = [False] * (n+1)
-        visited[start_node] = True
-        hack_cnt = 0
-        while q:
-            curr = q.popleft()
-            for next_node in graph[curr]:
-                if not visited[next_node]:
-                    q.append(next_node)
-                    visited[next_node] = True
-                    hack_cnt += 1
-        if hack_cnt:
-            hacks[start_node] = hack_cnt
-    return hacks.items()
-
-
 input = sys.stdin.readline
+
+
+def bfs(graph, start_node, n):
+    q = deque([start_node])
+    visited = [False] * (n + 1)
+    visited[start_node] = True
+    hack_cnt = 0
+    while q:
+        curr = q.popleft()
+        for next_node in graph[curr]:
+            if not visited[next_node]:
+                q.append(next_node)
+                visited[next_node] = True
+                hack_cnt += 1
+    return hack_cnt
+
 
 N, M = map(int, input().split(" "))
 
-graph = defaultdict(list)
+graph = [[] for _ in range(N + 1)]
+results = []
 
+max_hack_cnt = -1
 for _ in range(M):
     A, B = map(int, input().split(" "))
     graph[B].append(A)
 
-sort_bfs = sorted(bfs(graph, N))
+for i in range(1, N + 1):
+    cnt = bfs(graph, i, N)
+    if cnt > max_hack_cnt:
+        max_hack_cnt = cnt
+    results.append(cnt)
 
-max_hacks = []
-max_cnt = max([value for _, value in sort_bfs])
-
-for id, cnt in sort_bfs:
-    if max_cnt == cnt:
-        max_hacks.append(id)
-
-print(*sorted(max_hacks))
+for i in range(N):
+    if results[i] == max_hack_cnt:
+        print(i + 1, end=" ")
