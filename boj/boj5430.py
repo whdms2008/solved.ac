@@ -23,3 +23,38 @@ AC는 정수 배열에 연산을 하기 위해 만든 언어이다. 이 언어�
 각 테스트 케이스에 대해서, 입력으로 주어ㅣㄴ 정수 배열에 함수를 수행한 결과를 출력한다.
 만약, 에러가 발생한 경우에는 error를 출력한다.
 """
+
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+T = int(input())
+
+for _ in range(T):
+    p = input().strip()
+    n = int(input())
+    x_str = input().strip()[1:-1]
+    if x_str:
+        x = deque(x_str.split(","))
+    else:
+        x = deque()
+
+    R = False
+    E = False
+    for func in p:
+        if func == "R":
+            R = not R
+        elif func == "D":
+            if len(x) == 0:
+                E = True
+                print("error")
+                break
+            if R:
+                x.pop()
+            else:
+                x.popleft()
+    if not E:
+        if R:
+            x.reverse()
+        print("[" + ",".join(x) + "]")
