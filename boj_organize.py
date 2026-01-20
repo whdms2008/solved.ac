@@ -48,6 +48,9 @@ for idx, file in enumerate(files_only):
             os.makedirs(f"{folder_path}/{levels.get(item.get("level"))}", exist_ok=True)
             destination_path = os.path.join("boj", file)
             move_path = os.path.join("boj", levels.get(item.get('level')))
-            shutil.move(destination_path, move_path)
+            try:
+                shutil.move(destination_path, move_path)
+            except shutil.Error:
+                print(f"boj{number}.py - 이미 존재하는 파일")
     time.sleep(1)
 
